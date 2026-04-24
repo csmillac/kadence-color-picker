@@ -14,8 +14,9 @@
   .seed-preview { width: 44px; height: 44px; border-radius: 8px; border: 0.5px solid rgba(0,0,0,0.12); flex-shrink: 0; cursor: pointer; transition: transform .1s; }
   .seed-preview:hover { transform: scale(1.05); }
   input[type=color] { opacity: 0; position: absolute; width: 0; height: 0; }
-  .seed-hex { font-size: 14px; font-weight: 500; color: #1a1a1a; letter-spacing: .05em; cursor: pointer; padding: 6px 10px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; background: #fff; min-width: 90px; text-align: center; }
-  .seed-hex:hover { background: #f1f1ef; }
+  .seed-hex { font-size: 14px; font-weight: 500; color: #1a1a1a; letter-spacing: .05em; padding: 6px 10px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; background: #fff; min-width: 90px; text-align: center; font-family: monospace; outline: none; }
+  .seed-hex:focus { border-color: rgba(0,0,0,0.4); }
+  .seed-hex.invalid { border-color: #e53e3e; color: #e53e3e; }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
   button { font-size: 13px; padding: 7px 14px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; background: #fff; color: #1a1a1a; cursor: pointer; transition: background .1s; }
   button:hover { background: #f1f1ef; }
@@ -23,32 +24,40 @@
   .section { margin-bottom: 1.5rem; }
   .section-label { font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: #888; margin-bottom: 8px; }
   .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
-  .swatch { flex: 1; min-width: 70px; max-width: 140px; cursor: pointer; border-radius: 8px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.08); transition: transform .1s; background: #fff; }
+  .swatch { flex: 1; min-width: 70px; max-width: 140px; cursor: pointer; border-radius: 8px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.08); transition: transform .1s; position: relative; }
   .swatch:hover { transform: translateY(-2px); }
-  .swatch-color { height: 52px; }
+  .swatch-color { height: 52px; position: relative; }
   .swatch-info { padding: 6px 8px; background: #fff; }
   .swatch-name { font-size: 10px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .swatch-hex { font-size: 12px; font-weight: 500; color: #1a1a1a; font-family: monospace; }
   .swatch.copied .swatch-hex { color: #2d7a4f; }
+  .edit-btn { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 4px; background: rgba(255,255,255,0.85); border: 0.5px solid rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 11px; padding: 0; color: #333; z-index: 2; }
+  .edit-btn:hover { background: #fff; }
+  .override-badge { position: absolute; bottom: 4px; right: 4px; font-size: 9px; background: rgba(0,0,0,0.55); color: #fff; padding: 1px 5px; border-radius: 3px; }
   .notice-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
-  .notice-swatch { flex: 1; min-width: 55px; max-width: 100px; border-radius: 8px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; transition: transform .1s; background: #fff; }
+  .notice-swatch { flex: 1; min-width: 55px; max-width: 100px; border-radius: 8px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.08); cursor: pointer; transition: transform .1s; }
   .notice-swatch:hover { transform: translateY(-2px); }
   .notice-swatch .swatch-color { height: 40px; }
-  .notice-swatch .swatch-info { padding: 4px 6px; }
-  .contrast-preview { margin-bottom: 1.5rem; padding: 1rem; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: #fff; }
-  .contrast-preview-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #888; margin-bottom: 8px; font-weight: 500; }
-  .preview-text { margin-bottom: 2px; font-weight: 500; }
+  .notice-swatch .swatch-info { padding: 4px 6px; background: #fff; }
   .divider { height: 0.5px; background: rgba(0,0,0,0.1); margin: 1rem 0; }
   .export-area { background: #f1f1ef; border-radius: 8px; padding: 12px; font-size: 12px; font-family: monospace; color: #555; white-space: pre-wrap; word-break: break-all; max-height: 180px; overflow-y: auto; border: 0.5px solid rgba(0,0,0,0.1); }
-  .toast { position: fixed; bottom: 20px; right: 20px; background: #1a1a1a; color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 100; }
-  .toast.show { opacity: 1; }
   .wcag-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
   .wcag-badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
   .pass { background: #e6f4ec; color: #1a6535; }
   .fail { background: #fdecea; color: #8b1c1c; }
-  .harmony-row { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .harmony-row { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
   .harmony-btn { font-size: 12px; padding: 5px 10px; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 20px; background: #fff; color: #555; cursor: pointer; }
   .harmony-btn.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .row-label { font-size: 12px; color: #666; flex-shrink: 0; }
+  .mode-toggle-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+  .mode-toggle { display: flex; border: 0.5px solid rgba(0,0,0,0.18); border-radius: 8px; overflow: hidden; }
+  .mode-btn { font-size: 13px; padding: 7px 16px; border: none; background: #fff; color: #666; cursor: pointer; transition: background .15s, color .15s; border-radius: 0; }
+  .mode-btn.active { background: #1a1a1a; color: #fff; }
+  .mode-btn:first-child { border-right: 0.5px solid rgba(0,0,0,0.18); }
+  .preview-panel { border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; transition: background .2s; }
+  .preview-panel.light-panel { background: #ffffff; border: 0.5px solid rgba(0,0,0,0.1); }
+  .preview-panel.dark-panel { background: #1a1f2e; border: 0.5px solid rgba(255,255,255,0.08); }
+  .pp-label { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -59,7 +68,7 @@
     <div class="seed-row">
       <div class="seed-preview" id="seedPreview" onclick="document.getElementById('colorPicker').click()"></div>
       <input type="color" id="colorPicker" value="#40645c">
-      <div class="seed-hex" id="seedHex" onclick="document.getElementById('colorPicker').click()">#40645c</div>
+      <input type="text" class="seed-hex" id="seedHex" value="#40645c" maxlength="7" spellcheck="false">
     </div>
     <div class="actions">
       <button onclick="randomColor()">Random ↺</button>
@@ -75,15 +84,27 @@
     <button class="harmony-btn" onclick="setHarmony('split',this)">Split complement</button>
   </div>
 
-  <div class="harmony-row" style="margin-bottom:1.5rem">
-    <span style="font-size:12px;color:#888;align-self:center;margin-right:4px">Backgrounds:</span>
+  <div class="harmony-row" style="margin-bottom:1rem">
+    <span class="row-label">Backgrounds:</span>
     <button class="harmony-btn active" id="bgNeutral" onclick="setBgMode('neutral',this)">Cool gray</button>
     <button class="harmony-btn" id="bgWarm" onclick="setBgMode('warm',this)">Warm gray</button>
     <button class="harmony-btn" id="bgTinted" onclick="setBgMode('tinted',this)">Tinted (hue-derived)</button>
   </div>
 
+  <div class="mode-toggle-row">
+    <span class="row-label">Mode:</span>
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modeLight" onclick="setMode('light',this)">☀ Light</button>
+      <button class="mode-btn" id="modeDark" onclick="setMode('dark',this)">☾ Dark</button>
+    </div>
+    <span style="font-size:11px;color:#888" id="modeHint">Viewing light palette</span>
+  </div>
+
+  <input type="color" id="altPicker" style="opacity:0;position:absolute;width:0;height:0">
+  <input type="color" id="compPicker" style="opacity:0;position:absolute;width:0;height:0">
+
   <div class="section">
-    <div class="section-label">Accents</div>
+    <div class="section-label">Accents <span style="font-size:10px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0"> — click ✏ to override alt or complement</span></div>
     <div class="swatches" id="accentSwatches"></div>
   </div>
 
@@ -92,8 +113,9 @@
     <div class="swatches" id="contrastSwatches"></div>
   </div>
 
-  <div class="contrast-preview" id="contrastPreview">
-    <div class="contrast-preview-label">Preview on white</div>
+  <div class="preview-panel light-panel" id="previewPanel">
+    <div class="pp-label" id="ppLabel" style="color:#888">Preview</div>
+    <div id="ppContent"></div>
   </div>
 
   <div class="section">
@@ -107,27 +129,20 @@
   </div>
 
   <div class="divider"></div>
-
-  <div class="section-label" style="margin-bottom:8px">WCAG contrast check (text on white)</div>
+  <div class="section-label" style="margin-bottom:8px">WCAG contrast check</div>
   <div class="wcag-row" id="wcagRow"></div>
-
   <div class="divider"></div>
-
   <div class="section-label" style="margin-bottom:8px">Export (JSON)</div>
   <div class="export-area" id="exportArea"></div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-let currentHarmony = 'mono';
-let currentBgMode = 'neutral';
-let palette = {};
+let currentHarmony='mono', currentBgMode='neutral', currentMode='light';
+let palette={}, darkPalette={};
+let overrideAlt=null, overrideComp=null;
 
-function hexToHSL(hex) {
-  let r = parseInt(hex.slice(1,3),16)/255;
-  let g = parseInt(hex.slice(3,5),16)/255;
-  let b = parseInt(hex.slice(5,7),16)/255;
+function hexToHSL(hex){
+  let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
   let max=Math.max(r,g,b),min=Math.min(r,g,b),l=(max+min)/2,h=0,s=0;
   if(max!==min){let d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;}}
   return{h:h*360,s:s*100,l:l*100};
@@ -140,181 +155,200 @@ function hslToHex(h,s,l){
   return '#'+f(0)+f(8)+f(4);
 }
 
-function getContrastRatio(hex1, hex2) {
-  function lum(hex) {
-    let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
-    let ch=c=>c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);
-    return 0.2126*ch(r)+0.7152*ch(g)+0.0722*ch(b);
-  }
-  let l1=lum(hex1),l2=lum(hex2);
-  let br=Math.max(l1,l2),dr=Math.min(l1,l2);
-  return (br+0.05)/(dr+0.05);
+function getContrastRatio(hex1,hex2){
+  function lum(hex){let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;let ch=c=>c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4);return 0.2126*ch(r)+0.7152*ch(g)+0.0722*ch(b);}
+  let l1=lum(hex1),l2=lum(hex2),br=Math.max(l1,l2),dr=Math.min(l1,l2);
+  return(br+0.05)/(dr+0.05);
 }
 
-function accentComplement(h, s, l, harmony) {
-  if(harmony==='mono') return {h, s:Math.max(10,s-10), l:Math.min(90,l+12)};
-  if(harmony==='analogous') return {h:(h+30)%360, s, l};
-  if(harmony==='triadic') return {h:(h+120)%360, s, l};
-  if(harmony==='split') return {h:(h+150)%360, s, l};
-  return {h, s, l};
+function accentComplement(h,s,l,harmony){
+  if(harmony==='mono')return{h,s:Math.max(10,s-10),l:Math.min(90,l+12)};
+  if(harmony==='analogous')return{h:(h+30)%360,s,l};
+  if(harmony==='triadic')return{h:(h+120)%360,s,l};
+  if(harmony==='split')return{h:(h+150)%360,s,l};
+  return{h,s,l};
 }
 
-function generatePalette(hex) {
-  const {h,s,l} = hexToHSL(hex);
-  const ns = Math.max(5, s*0.15);
-  const comp = accentComplement(h, s, l, currentHarmony);
-  const neutralSubtle = '#edf2f7';
-  const neutralLighter = '#f7fafc';
-  const warmSubtle = '#f0ece6';
-  const warmLighter = '#f7f4f0';
-  palette = {
-    accent: hex,
-    accentAlt: hslToHex(h, s, Math.max(10, l-18)),
-    accentComplement: hslToHex(comp.h, comp.s, Math.min(88, comp.l+10)),
-    strongestText: hslToHex(h, ns, 10),
-    strongText: hslToHex(h, ns, 18),
-    mediumText: hslToHex(h, ns, 33),
-    subtleText: hslToHex(h, ns, 48),
-    subtleBg: currentBgMode === 'neutral' ? neutralSubtle : currentBgMode === 'warm' ? warmSubtle : hslToHex(h, Math.min(s*0.25, 18), 93),
-    lighterBg: currentBgMode === 'neutral' ? neutralLighter : currentBgMode === 'warm' ? warmLighter : hslToHex(h, Math.min(s*0.12, 10), 96.5),
-    white: '#ffffff',
-    success: '#38a169',
-    info: '#3182ce',
-    alert: '#e53e3e',
-    warning: '#dd6b20',
-    rating: '#ecc94b',
+function generatePalettes(hex){
+  const{h,s,l}=hexToHSL(hex);
+  const ns=Math.max(5,s*0.15);
+  const comp=accentComplement(h,s,l,currentHarmony);
+  const bgMap={
+    neutral:{subtle:'#edf2f7',lighter:'#f7fafc'},
+    warm:{subtle:'#f0ece6',lighter:'#f7f4f0'},
+    tinted:{subtle:hslToHex(h,Math.min(s*0.25,18),93),lighter:hslToHex(h,Math.min(s*0.12,10),96.5)}
   };
-  return palette;
+  const bg=bgMap[currentBgMode];
+  const accentAlt=overrideAlt||hslToHex(h,s,Math.max(10,l-18));
+  const accentComp=overrideComp||hslToHex(comp.h,comp.s,Math.min(88,comp.l+10));
+
+  palette={
+    accent:hex, accentAlt, accentComplement:accentComp,
+    strongestText:hslToHex(h,ns,10), strongText:hslToHex(h,ns,18),
+    mediumText:hslToHex(h,ns,33), subtleText:hslToHex(h,ns,48),
+    subtleBg:bg.subtle, lighterBg:bg.lighter, white:'#ffffff',
+    success:'#38a169', info:'#3182ce', alert:'#e53e3e', warning:'#dd6b20', rating:'#ecc94b'
+  };
+
+  const darkAccent=hslToHex(h,Math.min(s+10,100),Math.min(l+15,72));
+  const darkAlt=hslToHex(h,Math.min(s+5,100),Math.min(l+25,82));
+  const darkComp=hslToHex(comp.h,Math.min(comp.s+10,100),Math.min(comp.l+20,80));
+  darkPalette={
+    accent:darkAccent, accentAlt:darkAlt, accentComplement:darkComp,
+    strongestText:hslToHex(h,ns*0.5,96), strongText:hslToHex(h,ns*0.5,88),
+    mediumText:hslToHex(h,ns*0.5,70), subtleText:hslToHex(h,ns*0.5,52),
+    subtleBg:hslToHex(h,Math.min(s*0.3,20),14),
+    lighterBg:hslToHex(h,Math.min(s*0.2,15),10),
+    white:hslToHex(h,Math.min(s*0.15,10),7),
+    success:'#68d391', info:'#63b3ed', alert:'#fc8181', warning:'#f6ad55', rating:'#f6e05e'
+  };
 }
 
-function renderSwatch(color, name, container, small=false) {
-  const d = document.createElement('div');
-  d.className = small ? 'notice-swatch' : 'swatch';
-  d.innerHTML = `<div class="swatch-color" style="background:${color}"></div><div class="swatch-info"><div class="swatch-name">${name}</div><div class="swatch-hex">${color}</div></div>`;
-  d.onclick = () => {
+function activePalette(){ return currentMode==='dark'?darkPalette:palette; }
+
+function renderSwatch(color,name,container,small=false,editType=null){
+  const d=document.createElement('div');
+  d.className=small?'notice-swatch':'swatch';
+  const isOverridden=(editType==='alt'&&overrideAlt)||(editType==='comp'&&overrideComp);
+  d.innerHTML=`<div class="swatch-color" style="background:${color}">
+    ${editType&&currentMode==='light'?`<button class="edit-btn" title="Edit" onclick="openEditPicker('${editType}',event)">✏</button>`:''}
+    ${isOverridden&&currentMode==='light'?`<span class="override-badge">custom</span>`:''}
+  </div>
+  <div class="swatch-info" style="background:#fff">
+    <div class="swatch-name">${name}</div>
+    <div class="swatch-hex">${color}</div>
+  </div>`;
+  d.querySelector('.swatch-color').addEventListener('click',(e)=>{
+    if(e.target.classList.contains('edit-btn')||e.target.closest('.edit-btn'))return;
     navigator.clipboard.writeText(color).catch(()=>{});
-    d.classList.add('copied');
-    d.querySelector('.swatch-hex').textContent = 'Copied!';
-    setTimeout(()=>{d.classList.remove('copied');d.querySelector('.swatch-hex').textContent=color;},1200);
-  };
+    const hexEl=d.querySelector('.swatch-hex');
+    d.classList.add('copied'); hexEl.textContent='Copied!';
+    setTimeout(()=>{d.classList.remove('copied');hexEl.textContent=color;},1200);
+  });
   container.appendChild(d);
 }
 
-function render(hex) {
-  const p = generatePalette(hex);
-  document.getElementById('seedPreview').style.background = hex;
-  document.getElementById('seedHex').textContent = hex;
-  ['accentSwatches','contrastSwatches','baseSwatches','noticeSwatches'].forEach(id=>{
-    document.getElementById(id).innerHTML='';
-  });
-  const acc = document.getElementById('accentSwatches');
-  renderSwatch(p.accent, 'Accent', acc);
-  renderSwatch(p.accentAlt, 'Accent – Alt', acc);
-  renderSwatch(p.accentComplement, 'Accent – Complement', acc);
-  const con = document.getElementById('contrastSwatches');
-  renderSwatch(p.strongestText, 'Strongest text', con);
-  renderSwatch(p.strongText, 'Strong text', con);
-  renderSwatch(p.mediumText, 'Medium text', con);
-  renderSwatch(p.subtleText, 'Subtle text', con);
-  const base = document.getElementById('baseSwatches');
-  renderSwatch(p.subtleBg, 'Subtle bg', base);
-  renderSwatch(p.lighterBg, 'Lighter bg', base);
-  renderSwatch(p.white, 'White / offwhite', base);
-  const not = document.getElementById('noticeSwatches');
-  [['success','Success'],['info','Info'],['alert','Alert'],['warning','Warning'],['rating','Rating']].forEach(([k,n])=>renderSwatch(p[k],n,not,true));
-  renderContrastPreview(p);
-  renderWCAG(p);
-  renderExport(p);
+function openEditPicker(type,e){
+  e.stopPropagation();
+  const picker=document.getElementById(type==='alt'?'altPicker':'compPicker');
+  picker.value=type==='alt'?(overrideAlt||palette.accentAlt):(overrideComp||palette.accentComplement);
+  picker.click();
 }
 
-function renderContrastPreview(p) {
-  const div = document.getElementById('contrastPreview');
-  div.innerHTML = `<div class="contrast-preview-label">Preview on white</div>
-    <div class="preview-text" style="font-size:20px;color:${p.strongestText}">Strongest text — heading</div>
+document.getElementById('altPicker').addEventListener('input',e=>{overrideAlt=e.target.value;render(document.getElementById('colorPicker').value);});
+document.getElementById('compPicker').addEventListener('input',e=>{overrideComp=e.target.value;render(document.getElementById('colorPicker').value);});
+
+function render(hex){
+  generatePalettes(hex);
+  const p=activePalette();
+  const isDark=currentMode==='dark';
+  document.getElementById('seedPreview').style.background=hex;
+  document.getElementById('seedHex').value=hex;
+  ['accentSwatches','contrastSwatches','baseSwatches','noticeSwatches'].forEach(id=>{document.getElementById(id).innerHTML='';});
+  const acc=document.getElementById('accentSwatches');
+  renderSwatch(p.accent,'Accent',acc,false,null);
+  renderSwatch(p.accentAlt,'Accent – Alt',acc,false,'alt');
+  renderSwatch(p.accentComplement,'Accent – Complement',acc,false,'comp');
+  const con=document.getElementById('contrastSwatches');
+  ['strongestText','strongText','mediumText','subtleText'].forEach((k,i)=>
+    renderSwatch(p[k],['Strongest text','Strong text','Medium text','Subtle text'][i],con));
+  const base=document.getElementById('baseSwatches');
+  renderSwatch(p.subtleBg,'Subtle bg',base);
+  renderSwatch(p.lighterBg,'Lighter bg',base);
+  renderSwatch(p.white,isDark?'Dark base':'White / offwhite',base);
+  const not=document.getElementById('noticeSwatches');
+  [['success','Success'],['info','Info'],['alert','Alert'],['warning','Warning'],['rating','Rating']].forEach(([k,n])=>renderSwatch(p[k],n,not,true));
+  renderPreviewPanel(p,isDark);
+  renderWCAG(p,isDark);
+  renderExport();
+}
+
+function renderPreviewPanel(p,isDark){
+  const panel=document.getElementById('previewPanel');
+  const label=document.getElementById('ppLabel');
+  const content=document.getElementById('ppContent');
+  panel.className='preview-panel '+(isDark?'dark-panel':'light-panel');
+  label.style.color=isDark?p.subtleText:'#888';
+  label.textContent=isDark?'Dark mode preview':'Light mode preview';
+  content.innerHTML=`
+    <div style="font-size:20px;font-weight:500;color:${p.strongestText};margin-bottom:2px">Strongest text — heading</div>
     <div style="font-size:15px;color:${p.strongText};margin-bottom:4px">Strong text — body copy for paragraphs and main content</div>
     <div style="font-size:14px;color:${p.mediumText};margin-bottom:4px">Medium text — captions, labels, metadata</div>
-    <div style="font-size:13px;color:${p.subtleText}">Subtle text — borders, placeholders, dividers</div>
-    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-      <span style="padding:6px 14px;border-radius:6px;background:${p.accent};color:#fff;font-size:13px;font-weight:500">Primary button</span>
-      <span style="padding:6px 14px;border-radius:6px;background:${p.accentAlt};color:#fff;font-size:13px;font-weight:500">Hover state</span>
-      <a href="#" style="color:${p.accent};font-size:14px;text-decoration:underline;line-height:2.2">Link color</a>
+    <div style="font-size:13px;color:${p.subtleText};margin-bottom:12px">Subtle text — borders, placeholders, dividers</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="padding:6px 14px;border-radius:6px;background:${p.accent};color:${isDark?'#111':'#fff'};font-size:13px;font-weight:500">Primary button</span>
+      <span style="padding:6px 14px;border-radius:6px;background:${p.accentAlt};color:${isDark?'#111':'#fff'};font-size:13px;font-weight:500">Hover state</span>
+      <span style="padding:4px 10px;border-radius:20px;background:${p.success}22;color:${p.success};font-size:12px;font-weight:500;border:0.5px solid ${p.success}55">Success</span>
+      <span style="padding:4px 10px;border-radius:20px;background:${p.alert}22;color:${p.alert};font-size:12px;font-weight:500;border:0.5px solid ${p.alert}55">Alert</span>
     </div>`;
 }
 
-function renderWCAG(p) {
-  const row = document.getElementById('wcagRow');
-  row.innerHTML = '';
-  const checks = [
-    ['Strongest', p.strongestText],
-    ['Strong', p.strongText],
-    ['Medium', p.mediumText],
-    ['Subtle', p.subtleText],
-    ['Accent', p.accent],
-  ];
-  checks.forEach(([name, color]) => {
-    const ratio = getContrastRatio(color, '#ffffff');
-    const aa = ratio >= 4.5;
-    const aaa = ratio >= 7;
-    const badge = document.createElement('span');
-    badge.className = 'wcag-badge ' + (aa ? 'pass' : 'fail');
-    badge.textContent = `${name} ${ratio.toFixed(1)}:1 ${aaa ? 'AAA' : aa ? 'AA' : 'Fail'}`;
+function renderWCAG(p,isDark){
+  const row=document.getElementById('wcagRow'); row.innerHTML='';
+  const bg=isDark?p.white:'#ffffff';
+  [['Strongest',p.strongestText],['Strong',p.strongText],['Medium',p.mediumText],['Subtle',p.subtleText],['Accent',p.accent]].forEach(([name,color])=>{
+    const ratio=getContrastRatio(color,bg),aa=ratio>=4.5,aaa=ratio>=7;
+    const badge=document.createElement('span');
+    badge.className='wcag-badge '+(aa?'pass':'fail');
+    badge.textContent=`${name} ${ratio.toFixed(1)}:1 ${aaa?'AAA':aa?'AA':'Fail'}`;
     row.appendChild(badge);
   });
 }
 
-function renderExport(p) {
-  const json = { palette: {
-    accent: p.accent, accentAlt: p.accentAlt, accentComplement: p.accentComplement,
-    strongestText: p.strongestText, strongText: p.strongText, mediumText: p.mediumText, subtleText: p.subtleText,
-    subtleBg: p.subtleBg, lighterBg: p.lighterBg, white: p.white,
-    success: p.success, info: p.info, alert: p.alert, warning: p.warning, rating: p.rating,
-  }};
-  document.getElementById('exportArea').textContent = JSON.stringify(json, null, 2);
+function renderExport(){
+  const lp=palette, dp=darkPalette;
+  const out={
+    light:{accent:lp.accent,accentAlt:lp.accentAlt,accentComplement:lp.accentComplement,strongestText:lp.strongestText,strongText:lp.strongText,mediumText:lp.mediumText,subtleText:lp.subtleText,subtleBg:lp.subtleBg,lighterBg:lp.lighterBg,white:lp.white,success:lp.success,info:lp.info,alert:lp.alert,warning:lp.warning,rating:lp.rating},
+    dark:{accent:dp.accent,accentAlt:dp.accentAlt,accentComplement:dp.accentComplement,strongestText:dp.strongestText,strongText:dp.strongText,mediumText:dp.mediumText,subtleText:dp.subtleText,subtleBg:dp.subtleBg,lighterBg:dp.lighterBg,white:dp.white,success:dp.success,info:dp.info,alert:dp.alert,warning:dp.warning,rating:dp.rating}
+  };
+  document.getElementById('exportArea').textContent=JSON.stringify(out,null,2);
 }
 
-function randomColor() {
-  const h = Math.random()*360;
-  const s = 35 + Math.random()*40;
-  const l = 28 + Math.random()*30;
-  const hex = hslToHex(h,s,l);
-  document.getElementById('colorPicker').value = hex;
-  render(hex);
-}
-
-function setBgMode(mode, btn) {
-  currentBgMode = mode;
-  document.querySelectorAll('#bgNeutral, #bgWarm, #bgTinted').forEach(b=>b.classList.remove('active'));
+function setMode(mode,btn){
+  currentMode=mode;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  document.getElementById('modeHint').textContent=mode==='dark'?'Viewing dark palette':'Viewing light palette';
   render(document.getElementById('colorPicker').value);
 }
 
-function setHarmony(type, btn) {
-  currentHarmony = type;
+function randomColor(){
+  overrideAlt=null; overrideComp=null;
+  const hex=hslToHex(Math.random()*360,35+Math.random()*40,28+Math.random()*30);
+  document.getElementById('colorPicker').value=hex; render(hex);
+}
+
+function setBgMode(mode,btn){
+  currentBgMode=mode;
+  document.querySelectorAll('#bgNeutral,#bgWarm,#bgTinted').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); render(document.getElementById('colorPicker').value);
+}
+
+function setHarmony(type,btn){
+  currentHarmony=type; overrideAlt=null; overrideComp=null;
   document.querySelectorAll('.harmony-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  render(document.getElementById('colorPicker').value);
+  btn.classList.add('active'); render(document.getElementById('colorPicker').value);
 }
 
-function exportJSON() {
-  const text = document.getElementById('exportArea').textContent;
-  navigator.clipboard.writeText(text).catch(()=>{});
-  showToast('JSON copied to clipboard');
-}
+function exportJSON(){ navigator.clipboard.writeText(document.getElementById('exportArea').textContent).catch(()=>{}); }
+function copyAll(){ navigator.clipboard.writeText(Object.values(activePalette()).join('\n')).catch(()=>{}); }
 
-function copyAll() {
-  const hexes = Object.values(palette).join('\n');
-  navigator.clipboard.writeText(hexes).catch(()=>{});
-  showToast('All hex values copied');
-}
+document.getElementById('colorPicker').addEventListener('input',e=>{overrideAlt=null;overrideComp=null;render(e.target.value);});
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2000);
-}
+const seedHexInput=document.getElementById('seedHex');
+seedHexInput.addEventListener('input',e=>{
+  let val=e.target.value.trim();
+  if(!val.startsWith('#'))val='#'+val;
+  const valid=/^#[0-9a-fA-F]{6}$/.test(val);
+  seedHexInput.classList.toggle('invalid',!valid);
+  if(valid){overrideAlt=null;overrideComp=null;document.getElementById('colorPicker').value=val;render(val);}
+});
+seedHexInput.addEventListener('blur',e=>{
+  const val=document.getElementById('colorPicker').value;
+  seedHexInput.value=val;
+  seedHexInput.classList.remove('invalid');
+});
 
-document.getElementById('colorPicker').addEventListener('input', e=>render(e.target.value));
 render('#40645c');
 </script>
 </body>
